@@ -67,27 +67,24 @@
 </head>
 <body>
 <div class="flex-center position-ref full-height">
-    <div class="top-right links">
-        <a href="{{ url('/mission') }}">Mission</a>
-        <a href="{{ url('/history') }}">History</a>
-        <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Team
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Nathan Cherry</a>
-            <a class="dropdown-item" href="#">Ian Straatman</a>
-            <a class="dropdown-item" href="#">Marko Milovic</a>
-            <a class="dropdown-item" href="#">Sehaj Khaira</a>
-            <a class="dropdown-item" href="#">Ehabuddin Mohammed</a>
-            <a class="btn btn-success ml-4 mr-4" style="width: 209px;" href="#">Apply Now!</a>
+    @if (Route::has('login'))
+        <div class="top-right links">
+            @auth
+                <a href="{{ url('/home') }}">Home</a>
+            @else
+                <a href="{{ route('login') }}">Login</a>
+
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}">Register</a>
+                @endif
+            @endauth
         </div>
-        <a href="{{ url('/legal') }}">Legal</a>
-        <a href="{{ url('/contact') }}">Contact</a>
-    </div>
+    @endif
+
 
     <div class="content">
         <div class="title m-b-md">
-            NIMSE
+            eCommerce+
         </div>
 
         <div class="links">
