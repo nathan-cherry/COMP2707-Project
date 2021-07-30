@@ -3,54 +3,50 @@
 @section('content')
     <div class="jumbotron">
         <h1 class="display-4">Products</h1>
-        <p class="lead">NIMSE makes it our mission to provide a variety of products so that there will always be
-            something for everyone.</p>
+        <p class="lead">eCommerce+ offers only the highest quality product!</p>
         <hr class="my-4">
-        <p>All of our products are produced within Canada and no profit is made on any purchase. After the employees
-            are paid, the rest of our income goes right towards our partnership with the WWF. </p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </p>
     </div>
-    <div class="row">
+    <div class="container" style="min-height: 42vh">
         @if(count($products)>0)
-            @foreach($products as $product)
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" style="height: 25vh;"
-                             src="/storage/product_images/{{$product->image_path}}"
-                             alt="Card image">
-                        <div class="card-body">
-                            <p class="card-text"><b>{{$product->name}}</b></p>
-                            {{--                            <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit.--}}
-                            {{--                                Eveniet, facere!</p>--}}
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a href="/products/{{$product->id}}" type="button"
-                                       class="btn btn-sm btn-outline-secondary">View</a>
-                                    @auth
-                                        <form action="">
+            <div class="row">
+                @foreach($products as $product)
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" style="height: 25vh;"
+                                 src="{{url("public/storage/product_images/$product->image_path")}}"
+                                 alt="Card image">
+                            <div class="card-body">
+                                <p class="card-text"><b>{{$product->name}}</b></p>
+                                <p class="card-text text-muted">{{$product->type}}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="{{url("/products/$product->id")}}" type="button"
+                                           class="btn btn-sm btn-outline-secondary">View</a>
+                                        @auth
+                                            <form action="">
 
-                                        </form>
-                                    <a href="/cart/create/{{$product->id}}" type="button"
-                                       class="btn btn-sm btn-outline-secondary">Add</a>
-                                    @endauth
+                                            </form>
+                                            <a href="{{url("/cart/create/$product->id")}}" type="button"
+                                               class="btn btn-sm btn-outline-secondary">Add</a>
+                                        @endauth
+                                    </div>
+                                    <small class="text-muted">${{$product->price}}</small>
                                 </div>
-                                <small class="text-muted">${{$product->price}}</small>
                             </div>
                         </div>
                     </div>
+                @endforeach
+            </div>
+            <hr>
+            <div class="row mt-4">
+                <div class="text-xs-center ml-auto mr-auto">
+                    {{$products->links()}}
                 </div>
-            @endforeach
+            </div>
+        @else
+            <div class="row">
+                <h4 class="ml-auto mr-auto">There are unfortunately no products at this time...</h4>
+            </div>
+        @endif
     </div>
-    <hr>
-    <div class="row mt-4">
-        <div class="text-xs-center ml-auto mr-auto">
-            {{$products->links()}}
-        </div>
-    </div>
-    @else
-        <p>No posts found!</p>
-        </div>
-    @endif
 @endsection

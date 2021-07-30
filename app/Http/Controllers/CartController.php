@@ -146,4 +146,15 @@ class CartController extends Controller
         $location = sprintf('/cart/%d', auth()->user()->id);
         return redirect($location)->with('success', 'Deleted Order');
     }
+
+    // Will delete all orders to simulate buying
+    public function buy($id)
+    {
+        $orders = Cart::where('user_id', $id)->get();
+        foreach($orders as $order){
+            $order->delete();
+        }
+        $location = sprintf('/cart/%d', auth()->user()->id);
+        return redirect($location)->with('success', 'Order Processed');
+    }
 }

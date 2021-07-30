@@ -16,6 +16,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="{{asset("img/favicon-32x32.png")}}" type="image/x-icon">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -24,7 +25,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #5A0">
             <div class="container" >
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -53,7 +54,12 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/cart/{{Auth::user()->id}}">
+                                    @if(Auth::user()->isAdmin)
+                                        <a class="dropdown-item" href="{{url('/admin')}}">
+                                            Admin
+                                        </a>
+                                    @endif
+                                    <a class="dropdown-item" href="{{url("/cart/". Auth::user()->id)}}">
                                         Shopping Cart
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -80,34 +86,15 @@
 
         <footer class="bg-dark text-center text-white">
             <!-- Grid container -->
-            <div class="container p-4 pb-0">
-                <!-- Section: Social media -->
-                <section class="mb-4">
+            <div class="container p-4 pb-0" style="height: 15vh">
 
-                    <!-- Twitter -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-                    ><i class="fa fa-twitter"></i
-                        ></a>
-
-
-                    <!-- Instagram -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-                    ><i class="fa fa-instagram"></i
-                        ></a>
-
-                    <!-- Github -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-                    ><i class="fa fa-github"></i
-                        ></a>
-                </section>
-                <!-- Section: Social media -->
             </div>
             <!-- Grid container -->
 
             <!-- Copyright -->
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
                 © 2021 Copyright:
-                <a class="text-white" href="/">NIMSE</a>
+                <a class="text-white" href="/">Nathan Cherry</a>
             </div>
             <!-- Copyright -->
         </footer>

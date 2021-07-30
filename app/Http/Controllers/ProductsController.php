@@ -16,7 +16,7 @@ class ProductsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show', 'men', 'women', 'kids']]);
     }
     /**
      * Display a listing of the resource.
@@ -41,7 +41,7 @@ class ProductsController extends Controller
      */
     public function men()
     {
-        $products = Product::where('type', 'men')->paginate(12);
+        $products = Product::where('type', 'men')->paginate(9);
         return view('products.index')->with('products', $products);
     }
 
@@ -52,7 +52,7 @@ class ProductsController extends Controller
      */
     public function women()
     {
-        $products = Product::where('type', 'women')->paginate(12);
+        $products = Product::where('type', 'women')->paginate(9);
         return view('products.index')->with('products', $products);
     }
 
@@ -63,7 +63,7 @@ class ProductsController extends Controller
      */
     public function kids()
     {
-        $products = Product::where('type', 'kids')->get();
+        $products = Product::where('type', 'kids')->paginate(9);
         return view('products.index')->with('products', $products);
     }
 
@@ -74,6 +74,9 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        if(!auth()->user()->isAdmin){
+            return redirect('/products')->with('error', 'Unauthorized Request');
+        }
         return view('products.create');
     }
 
@@ -85,6 +88,9 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        if(!auth()->user()->isAdmin){
+            return redirect('/products')->with('error', 'Unauthorized Request');
+        }
         $this->validate($request, [
             'name' => 'required',
             'type' => 'required',
@@ -119,7 +125,7 @@ class ProductsController extends Controller
         $product->stock = $request->input('stock');
         $product->image_path = $fileNameToStore;
         $product->save();
-        return redirect('/products')->with('success', 'Product Created');
+        return redirect('/admin/products')->with('success', 'Product Created');
     }
 
     /**
@@ -130,6 +136,9 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
+        if(!auth()->user()->isAdmin){
+            return redirect('/products')->with('error', 'Unauthorized Request');
+        }
         $product = Product::find($id);
         return view('products.show')->with('product', $product);
     }
@@ -142,6 +151,9 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
+        if(!auth()->user()->isAdmin){
+            return redirect('/products')->with('error', 'Unauthorized Request');
+        }
         $product = Product::find($id);
         return view('products.edit')->with('product', $product);
     }
@@ -155,6 +167,9 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!auth()->user()->isAdmin){
+            return redirect('/products')->with('error', 'Unauthorized Request');
+        }
         $this->validate($request, [
             'name' => 'required',
             'type' => 'required',
@@ -190,7 +205,7 @@ class ProductsController extends Controller
             $product->image_path = $fileNameToStore;
         }
         $product->save();
-        return redirect('/products')->with('success', 'Product Updated');
+        return redirect('/admin/products')->with('success', 'Product Updated');
     }
 
     /**
@@ -210,6 +225,6 @@ class ProductsController extends Controller
             Storage::delete('public/product_images/'.$product->image_path);
         }
         $product->delete();
-        return redirect('/products')->with('success', 'Deleted Product');
+        return redirect('/admin/products')->with('success', 'Deleted Product');
     }
 }

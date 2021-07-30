@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Laravel</title>
+    <link rel="shortcut icon" href="{{url("public/img/favicon-32x32.png")}}" type="image/x-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
@@ -67,19 +68,39 @@
 </head>
 <body>
 <div class="flex-center position-ref full-height">
-    @if (Route::has('login'))
-        <div class="top-right links">
-            @auth
-                <a href="{{ url('/home') }}">Home</a>
-            @else
-                <a href="{{ route('login') }}">Login</a>
+    <div class="top-right links">
+        @guest
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}">Register</a>
-                @endif
-            @endauth
-        </div>
-    @endif
+                <a  href="{{ route('login') }}">{{ __('Login') }}</a>
+            @if (Route::has('register'))
+                    <a  href="{{ route('register') }}">{{ __('Register') }}</a>
+            @endif
+        @else
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    {{ Auth::user()->name }} <span class="caret"></span>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    @if(Auth::user()->isAdmin)
+                        <a class="dropdown-item" href="{{url('/admin')}}">
+                            Admin
+                        </a>
+                    @endif
+                    <a class="dropdown-item" href="{{url("/cart/". Auth::user()->id)}}">
+                        Shopping Cart
+                    </a>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
+        @endguest
+    </div>
 
 
     <div class="content">
@@ -88,10 +109,10 @@
         </div>
 
         <div class="links">
-            <a href="/products">All</a>
-            <a href="/products/men">Men</a>
-            <a href="/products/women">Women</a>
-            <a href="/products/kids">Kids</a>
+            <a href="{{url("/products")}}">All</a>
+            <a href="{{url("/products/men")}}">Men</a>
+            <a href="{{url("/products/women")}}">Women</a>
+            <a href="{{url("/products/kids")}}">Kids</a>
         </div>
     </div>
 </div>

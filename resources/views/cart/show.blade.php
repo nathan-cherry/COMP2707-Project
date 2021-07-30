@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-5 mb-5">
+    <div class="container mt-5 mb-5" style="min-height: 64vh">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 @auth
@@ -23,7 +23,7 @@
                                                 ${{sprintf('%0.2f', $order->quantity * $order->product->price)}}</p>
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="/cart/{{$order->id}}/edit" class="text-muted">edit</a>
+                                            <a href="{{url("/cart/$order->id/edit")}}" class="text-muted">edit</a>
                                         </div>
                                         <div class="col-md-1">
                                             {!! Form::open(['action' => ['CartController@destroy', $order->id], 'method'=> 'POST']) !!}
@@ -35,6 +35,19 @@
                                 @endforeach
                             </div>
                         </div>
+                        @if(count($cart)>0)
+                        <div class="card-footer">
+                            <div class="container">
+                                <div class="row">
+                                    <a class="btn text-primary" href="{{url('products')}}">Keep Shopping</a>
+                                    {!! Form::open(['action' => ['CartController@buy', $id], 'method'=> 'POST', 'class'=>'ml-auto']) !!}
+                                    {{Form::hidden('_method','DELETE') }}
+                                    {{Form::submit('Purchase',['class'=>'btn btn-success ml-auto']) }}
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 @endauth
             </div>
