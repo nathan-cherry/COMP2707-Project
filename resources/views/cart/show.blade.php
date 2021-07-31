@@ -35,19 +35,19 @@
                                 @endforeach
                             </div>
                         </div>
-                        @if(count($cart)>0)
                         <div class="card-footer">
                             <div class="container">
                                 <div class="row">
                                     <a class="btn text-primary" href="{{url('products')}}">Keep Shopping</a>
+                                    @if(count($cart)>0)
                                     {!! Form::open(['action' => ['CartController@buy', $id], 'method'=> 'POST', 'class'=>'ml-auto']) !!}
                                     {{Form::hidden('_method','DELETE') }}
                                     {{Form::submit('Purchase',['class'=>'btn btn-success ml-auto']) }}
                                     {!! Form::close() !!}
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                        @endif
                     </div>
                 @endauth
             </div>

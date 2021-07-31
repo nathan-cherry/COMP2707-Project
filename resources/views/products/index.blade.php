@@ -5,6 +5,12 @@
         <h1 class="display-4">Products</h1>
         <p class="lead">eCommerce+ offers only the highest quality product!</p>
         <hr class="my-4">
+        <div class="row">
+            <a href="{{url("/products")}}" class="btn btn-outline-primary m-1">All</a>
+            <a href="{{url("/products/men")}}" class="btn btn-outline-primary m-1">Men</a>
+            <a href="{{url("/products/women")}}" class="btn btn-outline-primary m-1">Women</a>
+            <a href="{{url("/products/kids")}}" class="btn btn-outline-primary m-1">Kids</a>
+        </div>
     </div>
     <div class="container" style="min-height: 42vh">
         @if(count($products)>0)

@@ -136,9 +136,6 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        if(!auth()->user()->isAdmin){
-            return redirect('/products')->with('error', 'Unauthorized Request');
-        }
         $product = Product::find($id);
         return view('products.show')->with('product', $product);
     }
